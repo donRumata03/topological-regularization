@@ -34,7 +34,7 @@ if __name__ == "__main__":
             config=args.config,
             lr=0.01,
             l2=5e-4,
-            coef_ratio=0.01,            # “slightly less than CE”
+            coef_ratio=0.001,            # “slightly less than CE”
             epochs=5,
             batch=args.batch,
             few=args.few,

@@ -9,5 +9,5 @@ for cfg in range(1, 6):
                         "file": os.path.basename(f)})
 
 df = pd.DataFrame(records)
-summary = df.groupby("cfg").agg(["mean", "std"]).round(2)
+summary = df.drop("file", axis=1).groupby("cfg").agg(["mean", "std"]).round(2)
 print(summary["acc"])

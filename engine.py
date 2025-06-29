@@ -17,7 +17,9 @@ class Engine:
     # ---------------------------------------------------------------
     def build_model(self):
         # self.model = vgg16(num_classes=10).to(self.device)
-        self.model = squeezenet1_0(num_classes=10).to(self.device)
+        self.model = squeezenet1_0(num_classes=10, ).to(self.device)
+        self.model.features[0] = torch.nn.Conv2d(1, 96, kernel_size=7, stride=2).to(self.device)
+
         # weight decay only for cfg==2
         self.optimizer = torch.optim.SGD(
             self.model.parameters(), lr=self.cfg.lr, momentum=.9,
@@ -72,7 +74,7 @@ class Engine:
                 if self.reg:
                     rtd_loss = self.reg()
                     # right after you compute rtd_loss in the training loop:
-                    if not torch.isfinite(rtd_loss):
+                    if not torch.all(torch.isfinite(rtd_loss)).item():
                         print("RTD blew up!", rtd_loss)
 
                     # Auto-tune the coefficient AFTER warm-up
